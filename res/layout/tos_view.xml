@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+      <TextView
+          android:id="@+id/tos_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentLeft="true"
+          android:layout_alignParentTop="true"
+          android:layout_marginTop="18dp"
+          android:layout_marginLeft="3dp"
+          android:gravity="center_horizontal"
+          android:text="I agree to the Terms of Service located at:"
+          android:textAppearance="?android:attr/textAppearanceLarge" />
+
+      <TextView
+          android:id="@+id/tos_link"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/tos_text"
+          android:layout_centerHorizontal="true"
+          android:layout_marginTop="16dp"
+          android:text="http://m.google.com/tospage" />
+
+      <Button
+          android:id="@+id/agree_button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentLeft="true"
+          android:layout_below="@+id/tos_link"
+          android:layout_marginLeft="90dp"
+          android:layout_marginTop="23dp"
+          android:text="Agree"
+          android:width="100dp"
+          android:onClick="agreeClick" />
+
+      <Button
+          android:id="@+id/disagree_button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignBaseline="@+id/agree_button"
+          android:layout_alignBottom="@+id/agree_button"
+          android:layout_marginLeft="40dp"
+          android:layout_toRightOf="@+id/agree_button"
+          android:text="Disagree"
+          android:width="100dp"
+          android:onClick="disagreeClick" />
+
+  </RelativeLayout>
