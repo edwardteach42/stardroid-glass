@@ -17,3 +17,14 @@ Features Not Yet Working:
  *   Search (Need to figure out how to implement voice search)
  *   TimeWarp (The popup needs to be reconfigured for glass and then that feature should be usable)
  *   Gallery (This is a little used feature so I am not worrying too much about it)
+ 
+Features Removed:
+ *   Removed the toggle for manual mode.  Kind of pointless on Glass, right?
+ *   Removed layers widget as there was no logical way to control this from glass.
+ *   Removed the zoom controllers from the screen as they were useless too.
+ 
+## Installation Instructions:
+Please note that [Launchy](https://github.com/kaze0/launchy) is required for this to work.
+ -   Make sure that you have put your Glass into Debug Mode
+ -   Compile the APK using your favorite IDE
+ -   
