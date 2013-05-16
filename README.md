@@ -3,6 +3,8 @@ stardroid-glass
 
 Google Sky Map port for Google Glass XE
 
+Demo Video: [http://www.youtube.com/watch?v=eonhQoWOOLc(http://www.youtube.com/watch?v=eonhQoWOOLc)](http://www.youtube.com/watch?v=eonhQoWOOLc)
+
 Since Sky Map is open source, I got curious as to how well it would run on Glass, which led me to where we are now.  Initially all you could do was look around but that has since changed.
 
 Features Working:
