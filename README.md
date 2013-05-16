@@ -10,6 +10,7 @@ Features Working:
  *   All sensors work perfectly
  *   Zoom (Swipe slowly from left to right to zoom in or out)
  *   Tap once to open up the options.  This will give you the ability to enter the preferences and edit the layers etc.
+ *   The Day/Night toggle is working
  *   Swipe down is the "back button"
  *   Added confirm on exit as I found I kept accidentally closing the app out.
 
