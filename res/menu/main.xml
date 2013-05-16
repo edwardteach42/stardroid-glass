@@ -15,11 +15,12 @@
 -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+	<!-- 
     <item android:id="@+id/menu_item_search"
           android:orderInCategory="0"
           android:title="@string/menu_search"
           android:icon="@android:drawable/ic_search_category_default"/>
+    -->
     <item android:id="@+id/menu_item_dim"
           android:orderInCategory="2"
           android:title="@string/menu_toggle_dim"

@@ -358,14 +358,14 @@ public class DynamicStarMapActivity extends Activity implements GestureDetector.
   public boolean onOptionsItemSelected(MenuItem item) {
     super.onOptionsItemSelected(item);
     switch (item.getItemId()) {
-      
+      /*
     	case R.id.menu_item_search:
         Log.d(TAG, "Search");
         Analytics.getInstance(this).trackEvent(Analytics.USER_ACTION_CATEGORY,
             Analytics.MENU_ITEM, Analytics.SEARCH_REQUESTED_LABEL, 1);
         onSearchRequested();
         break;
-      
+      */
       case R.id.menu_item_settings:
         Log.d(TAG, "Settings");
         Analytics.getInstance(this).trackEvent(Analytics.USER_ACTION_CATEGORY,
