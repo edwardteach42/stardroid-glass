@@ -25,6 +25,6 @@ Features Removed:
  
 ## Installation Instructions:
 Please note that [Launchy](https://github.com/kaze0/launchy) is required for this to work.
- -   Make sure that you have put your Glass into Debug Mode
- -   Compile the APK using your favorite IDE
- -   
+ 1.   Make sure that you have put your Glass into Debug Mode
+ 2.   Compile the APK using your favorite IDE
+ 3.   Plug your Glass in and push the APK using adb with 'adb install stardroid-glass.apk'   
