@@ -77,7 +77,7 @@
       android:authorities="com.google.android.stardroid.searchterms"
       android:syncable="false"/>
     <activity android:name=".activities.ControlPanelActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
-    <activity android:name=".activities.tosActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+    <activity android:name=".activities.TosActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
 
 </application>
     <supports-screens
