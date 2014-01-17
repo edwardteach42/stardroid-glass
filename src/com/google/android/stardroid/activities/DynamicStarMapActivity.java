@@ -86,7 +86,7 @@ public class DynamicStarMapActivity //
 
   /**
    * Passed to the renderer to get per-frame updates from the model.
-   * 
+   *
    * @author John Taylor
    */
   private static final class RendererModelUpdateClosure extends AbstractUpdateClosure {
