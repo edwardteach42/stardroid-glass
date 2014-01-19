@@ -244,6 +244,9 @@ public class DynamicStarMapActivity //
 
     gestureDetector = new GestureDetector(this);
     gestureDetector.setBaseListener(this);
+    gestureDetector.setFingerListener(this);
+    gestureDetector.setScrollListener(this);
+    gestureDetector.setTwoFingerScrollListener(this);
 
     Log.d(TAG, "-onCreate at " + System.currentTimeMillis());
 
@@ -286,9 +289,12 @@ public class DynamicStarMapActivity //
   @Override
   public boolean onScroll(float displacement, float delta, float velocity) {
     /*
-     * if (distanceX < -1) { controller.zoomIn(); } else if (distanceX > 1)
-     * { controller.zoomOut(); }
-     */
+    if (distanceX < -1) {
+      controller.zoomIn();
+    } else if (distanceX > 1) {
+      controller.zoomOut();
+    }
+    */
     return true;
   }
 
