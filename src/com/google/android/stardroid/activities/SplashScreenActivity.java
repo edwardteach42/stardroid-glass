@@ -20,8 +20,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 
 import com.google.android.stardroid.R;
 import com.google.android.stardroid.util.Analytics;
@@ -81,7 +81,7 @@ public class SplashScreenActivity extends Activity {
 
   @Override
   public void finish() {
-    Log.d(TAG,"SplashScreen finish called");
+    Log.d(TAG, "SplashScreen finish called");
     Intent intent = new Intent(this, DynamicStarMapActivity.class);
     startActivity(intent);
     super.finish();

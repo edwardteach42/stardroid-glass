@@ -7,9 +7,10 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+
 import com.google.android.stardroid.R;
 
-public class tosActivity extends Activity {
+public class TosActivity extends Activity {
 	
 	    
 	  @Override

@@ -14,6 +14,42 @@
 
 package com.google.android.stardroid.activities;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.media.MediaPlayer;
+import android.opengl.GLSurfaceView;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.PowerManager;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.glass.touchpad.Gesture;
+import com.google.android.glass.touchpad.GestureDetector;
 import com.google.android.stardroid.R;
 import com.google.android.stardroid.StardroidApplication;
 import com.google.android.stardroid.activities.util.ActivityLightLevelChanger;
@@ -30,61 +66,22 @@ import com.google.android.stardroid.renderer.SkyRenderer;
 import com.google.android.stardroid.renderer.util.AbstractUpdateClosure;
 import com.google.android.stardroid.search.SearchResult;
 import com.google.android.stardroid.touch.DragRotateZoomGestureDetector;
-import com.google.android.stardroid.touch.GestureInterpreter;
-import com.google.android.stardroid.touch.MapMover;
 import com.google.android.stardroid.units.GeocentricCoordinates;
 import com.google.android.stardroid.units.Vector3;
 import com.google.android.stardroid.util.Analytics;
 import com.google.android.stardroid.util.MathUtil;
 import com.google.android.stardroid.util.MiscUtil;
 import com.google.android.stardroid.util.OsVersions;
-import com.google.android.stardroid.views.ButtonLayerView;
-import com.google.android.stardroid.views.WidgetFader;
-import com.google.android.stardroid.views.WidgetFader.Fadeable;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.media.MediaPlayer;
-import android.opengl.GLSurfaceView;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.PowerManager;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.GestureDetector;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ZoomControls;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * The main map-rendering Activity.
  */
-public class DynamicStarMapActivity extends Activity implements GestureDetector.OnGestureListener {
+public class DynamicStarMapActivity //
+  extends Activity //
+  implements GestureDetector.BaseListener, //
+  GestureDetector.FingerListener, //
+  GestureDetector.ScrollListener, //
+  GestureDetector.TwoFingerScrollListener {
   private static final int TIME_DISPLAY_DELAY_MILLIS = 1000;
 
   /**
@@ -171,8 +168,7 @@ public class DynamicStarMapActivity extends Activity implements GestureDetector.
   private ActivityLightLevelManager activityLightLevelManager;
   private long sessionStartTime;
 
-
-@Override
+  @Override
   public void onCreate(Bundle icicle) {
     Log.d(TAG, "onCreate at " + System.currentTimeMillis());
     super.onCreate(icicle);
@@ -185,23 +181,23 @@ public class DynamicStarMapActivity extends Activity implements GestureDetector.
 
     boolean eulaConfirmed = sharedPreferences.getBoolean(READ_TOS_PREF, false);
     if (!eulaConfirmed) {
-    	new AlertDialog.Builder(this)
-        .setMessage("Do you agree to the Terms and Conditions located at:\nhttp://m.google.com/tospage")
-        .setCancelable(false)
-        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            	SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(DynamicStarMapActivity.this);
-                    Editor editor = sharedPreferences.edit();
-                    editor.putBoolean(DynamicStarMapActivity.READ_TOS_PREF, true);
-                    editor.commit();
-            }
-        })
-        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                 finish();
-            }
-        })
-        .show();
+      new AlertDialog.Builder(this)
+      .setMessage("Do you agree to the Terms and Conditions located at:\nhttp://m.google.com/tospage")
+      .setCancelable(false)
+      .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(DynamicStarMapActivity.this);
+          Editor editor = sharedPreferences.edit();
+          editor.putBoolean(DynamicStarMapActivity.READ_TOS_PREF, true);
+          editor.commit();
+        }
+      })
+      .setNegativeButton("No", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          finish();
+        }
+      })
+      .show();
     }
 
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
@@ -230,7 +226,8 @@ public class DynamicStarMapActivity extends Activity implements GestureDetector.
           @Override
           public void setNightMode(boolean nightMode) {
             DynamicStarMapActivity.this.rendererController.queueNightVisionMode(nightMode);
-          }});
+          }
+        });
     activityLightLevelManager = new ActivityLightLevelManager(activityLightLevelChanger,
                                                               sharedPreferences);
 
@@ -244,72 +241,76 @@ public class DynamicStarMapActivity extends Activity implements GestureDetector.
       Log.d(TAG, "Started as a result of a search");
       doSearchWithIntent(intent);
     }
-    
-    gestureDetector = new GestureDetector(this, this);
-    
+
+    gestureDetector = new GestureDetector(this);
+    gestureDetector.setBaseListener(this);
+    gestureDetector.setFingerListener(this);
+    gestureDetector.setScrollListener(this);
+    gestureDetector.setTwoFingerScrollListener(this);
+
     Log.d(TAG, "-onCreate at " + System.currentTimeMillis());
-    
+
   }
 
-	@Override
-	public void onBackPressed() {
-		new AlertDialog.Builder(this)
-        .setMessage("Are you sure you want to exit?")
-        .setCancelable(false)
-        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                 finish();
-            }
-        })
-        .setNegativeButton("No", null)
-        .show();
-	}
-	
-	@Override
-	public boolean onGenericMotionEvent(MotionEvent event) {
-	    gestureDetector.onTouchEvent(event);
-	    return true;
-	}
-	
-	@Override
-	public boolean onDown(MotionEvent e) {
-	    return false;
-	}
-	
-	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-	    if (velocityX < -10000) {
-	    	
-	    } else if (velocityX > 10000) {
-	    	
-	    }
-	    return false;
-	}
-	
-	@Override
-	public void onLongPress(MotionEvent e) {
-	}
-	
-	@Override
-	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-		if (distanceX < -1) {
-			controller.zoomIn();
-        } else if (distanceX > 1) {
-        	controller.zoomOut();
+  @Override
+  public void onBackPressed() {
+    new AlertDialog.Builder(this)
+    .setMessage("Are you sure you want to exit?")
+    .setCancelable(false)
+    .setPositiveButton("Yes",
+      new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+          finish();
         }
-        return true;
-	}
-	
-	@Override
-	public void onShowPress(MotionEvent e) {
-		
-	}
-	
-	@Override
-	public boolean onSingleTapUp(MotionEvent e) {
-		openOptionsMenu();
-	    return true;
-	}
+      })
+    .setNegativeButton("No", null)
+    .show();
+  }
+
+  @Override
+  public boolean onGenericMotionEvent(MotionEvent event) {
+    if (gestureDetector != null) {
+      return gestureDetector.onMotionEvent(event);
+    }
+    return false;
+  }
+
+  @Override
+  public boolean onGesture(Gesture gesture) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public void onFingerCountChanged(int previousCound, int currentCount) {
+    // TODO Auto-generated method stub
+  }
+
+  @Override
+  public boolean onScroll(float displacement, float delta, float velocity) {
+    /*
+    if (distanceX < -1) {
+      controller.zoomIn();
+    } else if (distanceX > 1) {
+      controller.zoomOut();
+    }
+    */
+    return true;
+  }
+
+  @Override
+  public boolean onTwoFingerScroll(float displacement, float delta, float velocity) {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  /*
+  @Override
+  public boolean onSingleTapUp(MotionEvent e) {
+    openOptionsMenu();
+    return true;
+  }
+  */
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -359,7 +360,7 @@ public class DynamicStarMapActivity extends Activity implements GestureDetector.
     super.onOptionsItemSelected(item);
     switch (item.getItemId()) {
       /*
-    	case R.id.menu_item_search:
+      case R.id.menu_item_search:
         Log.d(TAG, "Search");
         Analytics.getInstance(this).trackEvent(Analytics.USER_ACTION_CATEGORY,
             Analytics.MENU_ITEM, Analytics.SEARCH_REQUESTED_LABEL, 1);
